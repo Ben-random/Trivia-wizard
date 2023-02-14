@@ -5,7 +5,7 @@ import {CardComponent} from "./components";
 function Home() {
     return(
         <div>
-       <CardComponent />
+       <CardComponent/>
        </div>
     );
 }

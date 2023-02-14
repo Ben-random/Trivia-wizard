@@ -4,22 +4,21 @@ import "./style.css";
 
 function CardComponent(props) {
     const [qSet, setQset] = useState(props.qArr)
-    const [q, setQ] = useState({})
+    const [q, setQ] = useState(qSet[0])
 
     function getNextCard() {
         if (qSet.length > 1) {
-            const arr = qSet
-            const currentCard = arr.pop()
-            setQset(arr)
-            return currentCard
+            let arr = qSet.slice(1)
+            const [head, ...tail] = arr
+            setQ(head)
+            setQset(tail)
         } else {
             console.log("fetch next stack of cards")
-            return getNextCard()
+            setQset(qSet.concat(props.qArr))
+            console.log(qSet)
+            return {}
         }
     }
-    useEffect(() => {
-        setQ(getNextCard())
-    }, [])
     return<>
         <div className="body">
            <Card style={{ width: '18rem' }}>
@@ -31,6 +30,7 @@ function CardComponent(props) {
                     <div>
                     <button type="button">True</button>
                     <button type="button">False</button>
+                    <button type="button" onClick={getNextCard}>Next</button>
                     </div>
                 </Card.Body>
             </Card>

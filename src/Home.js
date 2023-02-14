@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useParams } from 'react';
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import {CardComponent} from "./components";
+import React, { useEffect, useState, useParams } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { CardComponent } from "./components";
+import Options from "./components/Options";
 
 function Home() {
-
     const qSet = [
         {"q": "Who killed JFK?", "a": true},
         {"q": "Who is the wrapper m&m?", "a": false},
@@ -11,9 +11,10 @@ function Home() {
     ]
     return(
         <div>
+        <Options />
        <CardComponent qArr={qSet}/>
        </div>
     );
 }
 
-export {Home};
+export { Home };

@@ -4,12 +4,17 @@ import { CardComponent } from "./components";
 import Options from "./components/Options";
 
 function Home() {
-  return (
-    <div>
-      <Options />
-      <CardComponent />
-    </div>
-  );
+    const qSet = [
+        {"q": "Who killed JFK?", "a": true},
+        {"q": "Who is the wrapper m&m?", "a": false},
+        {"q": "How does this effect LeBron's legacy?", "a": true}
+    ]
+    return(
+        <div>
+        <Options />
+       <CardComponent qArr={qSet}/>
+       </div>
+    );
 }
 
 export { Home };

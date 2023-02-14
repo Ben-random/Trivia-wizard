@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useParams } from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
-
+import {CardComponent} from "./components";
 
 function Home() {
     return(
         <div>
-            <p>Hello, Van - pick a Q</p>
-        </div>
+       <CardComponent />
+       </div>
     );
 }
 

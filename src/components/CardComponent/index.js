@@ -1,39 +1,25 @@
-import React, {useEffect, useState, useParams} from "react";
+import React, {useEffect, useState, useParams, useContext} from "react";
+import {DataContext} from "../../context/DataContext";
 import Card from 'react-bootstrap/Card';
 import "./style.css";
 
 function CardComponent(props) {
-    const [qSet, setQset] = useState(props.qArr)
-    const [q, setQ] = useState(qSet[0])
-
-    function getNextCard() {
-        if (qSet.length > 1) {
-            let arr = qSet.slice(1)
-            const [head, ...tail] = arr
-            setQ(head)
-            setQset(tail)
-        } else {
-            console.log("fetch next stack of cards")
-            setQset(qSet.concat(props.qArr))
-            console.log(qSet)
-            return {}
-        }
-    }
+    const { questions } = useContext(DataContext)
     return<>
         <div className="body">
-           <Card style={{ width: '18rem' }}>
+           {questions.length > 0 ? <Card style={{ width: '18rem' }}>
                 <Card.Body>
                     <Card.Title>Question:</Card.Title>
                     <Card.Text>
-                    {q["q"]}
+                    {questions[0].question}
                     </Card.Text>
                     <div>
                     <button type="button">True</button>
                     <button type="button">False</button>
-                    <button type="button" onClick={getNextCard}>Next</button>
+                    <button type="button">Next</button>
                     </div>
                 </Card.Body>
-            </Card>
+            </Card> : <></>}
         </div>
     </>;
 }

@@ -1,18 +1,15 @@
-import React, { useEffect, useState, useParams } from "react";
+import React, { useEffect, useState, useParams, useContext } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CardComponent } from "./components";
+import {DataContext} from "./context/DataContext";
 import Options from "./components/Options";
 
 function Home() {
-    const qSet = [
-        {"q": "Who killed JFK?", "a": true},
-        {"q": "Who is the wrapper m&m?", "a": false},
-        {"q": "How does this effect LeBron's legacy?", "a": true}
-    ]
+    const { questions } = useContext(DataContext)
     return(
         <div>
         <Options />
-       <CardComponent qArr={qSet}/>
+       <CardComponent/>
        </div>
     );
 }

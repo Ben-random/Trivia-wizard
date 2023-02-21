@@ -39,7 +39,8 @@ function CardComponent(props) {
                     <h1 className="text-success">Correct!</h1>
                   ) : (
                     <h1 className="text-danger">
-                      Incorrect! the answer is {questions[0].correct_answer}
+                      Incorrect! the answer is{" "}
+                      {decodeHTML(questions[0].correct_answer)}
                     </h1>
                   ))}
               </div>

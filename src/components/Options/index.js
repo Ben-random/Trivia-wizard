@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { DataContext } from "../../context/DataContext";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -9,7 +9,7 @@ function Options() {
   const [size, setSize] = useState(1);
   const [difficulty, setDifficulty] = useState("easy");
   const [type, setType] = useState("boolean");
-  const { setQuestions } = useContext(DataContext);
+  const { setQuestions, setAnswers } = useContext(DataContext);
 
   const fetchQuestion = () => {
     const API = `https://opentdb.com/api.php?amount=${size}&category=${category}&difficulty=${difficulty}&type=${type}`;
@@ -17,6 +17,13 @@ function Options() {
       .then((res) => res.json())
       .then((data) => {
         setQuestions(data.results);
+        setAnswers(
+          [
+            ...data.results[0].incorrect_answers,
+            data.results[0].correct_answer,
+          ].sort(() => Math.random() - 0.5)
+        );
+        console.log(data.results[0].correct_answer);
       })
       .catch((e) => console.log(e));
   };

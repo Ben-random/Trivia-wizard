@@ -9,7 +9,8 @@ function Options() {
   const [size, setSize] = useState(1);
   const [difficulty, setDifficulty] = useState("easy");
   const [type, setType] = useState("boolean");
-  const { setQuestions, setAnswers } = useContext(DataContext);
+  const { questions, setQuestions, setAnswers, guessed, setGuessed } =
+    useContext(DataContext);
 
   const fetchQuestion = () => {
     const API = `https://opentdb.com/api.php?amount=${size}&category=${category}&difficulty=${difficulty}&type=${type}`;
@@ -23,6 +24,7 @@ function Options() {
             data.results[0].correct_answer,
           ].sort(() => Math.random() - 0.5)
         );
+
         console.log(data.results[0].correct_answer);
       })
       .catch((e) => console.log(e));

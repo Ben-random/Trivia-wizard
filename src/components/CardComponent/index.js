@@ -26,7 +26,7 @@ function CardComponent(props) {
 
   return (
     <>
-      <div className="body card p-2 mb-4">
+      <div className="card-body card p-2 mb-4">
         {questions.length > 0 ? (
           <Card>
             <Card.Body>

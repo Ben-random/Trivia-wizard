@@ -81,4 +81,4 @@ function Options() {
   );
 }
 
-export default Options;
+export {Options, fetchNextQuestion};

@@ -4,6 +4,7 @@ import Card from "react-bootstrap/Card";
 import "./style.css";
 import AnswerButton from "../AnswerButton";
 import { decodeHTML } from "../../Utils";
+import {fetchNextQuestion} from "../Options";
 
 function CardComponent(props) {
   const { questions, answers, guessed, setGuessed } = useContext(DataContext);

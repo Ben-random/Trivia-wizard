@@ -4,7 +4,7 @@ import { CardComponent } from "./components";
 import { DataContext } from "./context/DataContext";
 import Navigation from "./components/Navigation";
 
-import Options from "./components/Options";
+import {Options} from "./components/Options";
 
 function Home() {
   const { questions } = useContext(DataContext);

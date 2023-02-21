@@ -8,15 +8,12 @@ import "./Navigation.css";
 function Navigation() {
   return (
     <>
-      <Navbar sticky="top" bg="dark" variant="dark" className="mb-4">
+      <Navbar className="navbar" bg="primary" variant="dark">
         <Container>
-          <Nav className="me-auto">
-            <Nav.Link as="div">
-              <NavLink to="/">Home</NavLink>
-            </Nav.Link>
-            <Nav.Link as="div">
-              <NavLink to="/favourites">Favourites</NavLink>
-            </Nav.Link>
+          <Navbar.Brand>Trivia Wizzard</Navbar.Brand>
+          <Nav className="me-auto navlink">
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="favourites">Favourites</Nav.Link>
           </Nav>
         </Container>
       </Navbar>

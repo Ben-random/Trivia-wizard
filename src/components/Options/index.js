@@ -32,7 +32,6 @@ function Options() {
 
   return (
     <>
-      <h1>Trivia Wizzard</h1>
       <section className="options-menu">
         <Form.Select
           aria-label="Default select example"

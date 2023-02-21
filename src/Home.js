@@ -10,7 +10,6 @@ function Home() {
   const { questions } = useContext(DataContext);
   return (
     <div>
-      <Navigation />
       <Options />
       <CardComponent />
     </div>

@@ -1,40 +1,54 @@
-import React, { useEffect, useState, useParams } from "react";
+import React, { useEffect, useState, useParams, useContext } from "react";
+import { DataContext } from "../../context/DataContext";
 import Card from "react-bootstrap/Card";
 import "./style.css";
+import AnswerButton from "../AnswerButton";
+import { decodeHTML } from "../../Utils";
 
 function CardComponent(props) {
-  const [qSet, setQset] = useState(props.qArr);
-  const [q, setQ] = useState(qSet[0]);
+  const { questions, answers, guessed, setGuessed } = useContext(DataContext);
+  const [guess, setGuess] = useState("");
 
-  function getNextCard() {
-    if (qSet.length > 1) {
-      let arr = qSet.slice(1);
-      const [head, ...tail] = arr;
-      setQ(head);
-      setQset(tail);
-    } else {
-      console.log("fetch next stack of cards");
-      setQset(qSet.concat(props.qArr));
-      console.log(qSet);
-      return {};
-    }
-  }
+  const handleGuess = (answer) => {
+    setGuessed(true);
+    setGuess(answer);
+  };
+
+  useEffect(() => {
+    setGuessed(false);
+  }, [questions]);
+
   return (
     <>
-      <div className="body">
-        <Card style={{ width: "18rem" }}>
-          <Card.Body>
-            <Card.Title>Question:</Card.Title>
-            <Card.Text>{q["q"]}</Card.Text>
-            <div>
-              <button type="button">True</button>
-              <button type="button">False</button>
-              <button type="button" onClick={getNextCard}>
-                Next
-              </button>
-            </div>
-          </Card.Body>
-        </Card>
+      <div className="body card p-2 mb-4">
+        {questions.length > 0 ? (
+          <Card>
+            <Card.Body>
+              <Card.Title>Question:</Card.Title>
+              <Card.Text>{decodeHTML(questions[0].question)}</Card.Text>
+              <div>
+                {answers.map((answer, index) => (
+                  <AnswerButton
+                    key={index}
+                    answer={answer}
+                    handleGuess={() => handleGuess(answer)}
+                  />
+                ))}
+                {guessed &&
+                  (guess === questions[0].correct_answer ? (
+                    <h1 className="text-success">Correct!</h1>
+                  ) : (
+                    <h1 className="text-danger">
+                      Incorrect! the answer is{" "}
+                      {decodeHTML(questions[0].correct_answer)}
+                    </h1>
+                  ))}
+              </div>
+            </Card.Body>
+          </Card>
+        ) : (
+          <></>
+        )}
       </div>
     </>
   );

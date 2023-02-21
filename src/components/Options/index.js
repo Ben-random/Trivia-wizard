@@ -20,15 +20,14 @@ function Options() {
     useContext(DataContext);
 
   const fetchQuestion = async () => {
-      await fetchNextQuestion(category, difficulty, type)
-        .then((data) => setQuestions(data.results))
-        .then((data) => setAnswers(
+    await fetchNextQuestion(category, difficulty, type)
+      .then((data) => {setQuestions(data.results)
+        setAnswers(
           [
             ...data.results[0].incorrect_answers,
             data.results[0].correct_answer,
           ].sort(() => Math.random() - 0.5)
-        ));
-        //console.log(data.results[0].correct_answer);
+        )})
   };
 
   return (

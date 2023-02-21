@@ -20,9 +20,9 @@ function CardComponent(props) {
 
   return (
     <>
-      <div className="body">
+      <div className="body card p-2 mb-4">
         {questions.length > 0 ? (
-          <Card style={{ width: "18rem" }}>
+          <Card>
             <Card.Body>
               <Card.Title>Question:</Card.Title>
               <Card.Text>{decodeHTML(questions[0].question)}</Card.Text>

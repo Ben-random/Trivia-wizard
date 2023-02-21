@@ -10,3 +10,7 @@ body {
     display: flex;
     padding-left: 14pt;
 } */
+
+next-button {
+  padding-left: 20pt;
+}

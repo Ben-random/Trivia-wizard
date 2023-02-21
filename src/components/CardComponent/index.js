@@ -18,6 +18,12 @@ function CardComponent(props) {
     setGuessed(false);
   }, [questions]);
 
+  function NextButton() {
+    return <>
+        <button className="body next-button">Next</button>
+    </>
+  }
+
   return (
     <>
       <div className="body card p-2 mb-4">
@@ -34,6 +40,7 @@ function CardComponent(props) {
                     handleGuess={() => handleGuess(answer)}
                   />
                 ))}
+                <NextButton/>
                 {guessed &&
                   (guess === questions[0].correct_answer ? (
                     <h1 className="text-success">Correct!</h1>

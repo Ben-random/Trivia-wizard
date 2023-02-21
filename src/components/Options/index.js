@@ -4,6 +4,13 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./Options.css";
 
+function fetchNextQuestion(category, difficulty, type) {
+  const API = `https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}&type=${type}`;
+  return fetch(API)
+    .then((res) => res.json())
+    .catch((e) => console.log(e));
+}
+
 function Options() {
   const [category, setCategory] = useState("");
   const [size, setSize] = useState(1);
@@ -12,22 +19,16 @@ function Options() {
   const { questions, setQuestions, setAnswers, guessed, setGuessed } =
     useContext(DataContext);
 
-  const fetchQuestion = () => {
-    const API = `https://opentdb.com/api.php?amount=${size}&category=${category}&difficulty=${difficulty}&type=${type}`;
-    fetch(API)
-      .then((res) => res.json())
-      .then((data) => {
-        setQuestions(data.results);
-        setAnswers(
+  const fetchQuestion = async () => {
+      await fetchNextQuestion(category, difficulty, type)
+        .then((data) => setQuestions(data.results))
+        .then((data) => setAnswers(
           [
             ...data.results[0].incorrect_answers,
             data.results[0].correct_answer,
           ].sort(() => Math.random() - 0.5)
-        );
-
-        console.log(data.results[0].correct_answer);
-      })
-      .catch((e) => console.log(e));
+        ));
+        //console.log(data.results[0].correct_answer);
   };
 
   return (

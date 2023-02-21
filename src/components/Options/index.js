@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { DataContext } from "../../context/DataContext";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -12,11 +12,7 @@ function fetchNextQuestion(category, difficulty, type) {
 }
 
 function Options() {
-  const [category, setCategory] = useState("");
-  const [size, setSize] = useState(1);
-  const [difficulty, setDifficulty] = useState("easy");
-  const [type, setType] = useState("boolean");
-  const { questions, setQuestions, setAnswers, guessed, setGuessed } =
+  const { setQuestions, setAnswers, category, setCategory, difficulty, setDifficulty, type, setType } =
     useContext(DataContext);
 
   const fetchQuestion = async () => {
@@ -42,16 +38,6 @@ function Options() {
           <option value="22">Geography</option>
           <option value="26">Celebrities</option>
           <option value="27">Animals</option>
-        </Form.Select>
-
-        <Form.Select
-          aria-label="Default select example"
-          onChange={(e) => setSize(e.target.value)}
-        >
-          <option>Size</option>
-          <option value="1">1</option>
-          <option value="5">5</option>
-          <option value="10">10</option>
         </Form.Select>
 
         <Form.Select

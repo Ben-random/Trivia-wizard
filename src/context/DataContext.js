@@ -6,6 +6,9 @@ export const DataProvider = (props) => {
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState([]);
   const [guessed, setGuessed] = useState(false);
+  const [category, setCategory] = useState("");
+  const [difficulty, setDifficulty] = useState("easy");
+  const [type, setType] = useState("boolean");
 
   return (
     <DataContext.Provider
@@ -14,8 +17,14 @@ export const DataProvider = (props) => {
         setQuestions,
         answers,
         setAnswers,
-        guessed,
         setGuessed,
+        guessed,
+        category,
+        setCategory,
+        difficulty,
+        setDifficulty,
+        type,
+        setType
       }}
     >
       {props.children}

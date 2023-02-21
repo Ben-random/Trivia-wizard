@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useParams, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { DataContext } from "../../context/DataContext";
 import Card from "react-bootstrap/Card";
 import "./style.css";
@@ -7,7 +7,7 @@ import { decodeHTML } from "../../Utils";
 import {fetchNextQuestion} from "../Options";
 
 function CardComponent(props) {
-  const { questions, answers, guessed, setGuessed } = useContext(DataContext);
+  const { questions, setQuestions, answers, setAnswers, guessed, setGuessed, category, difficulty, type } = useContext(DataContext);
   const [guess, setGuess] = useState("");
 
   const handleGuess = (answer) => {
@@ -15,13 +15,44 @@ function CardComponent(props) {
     setGuess(answer);
   };
 
+  const handleNextQuestion = async () => {
+    if (questions.length > 2) {
+        setGuess("")
+        setQuestions(questions.shift())
+        console.log("Questions:", questions)
+        setAnswers(
+            [
+            ...questions[0].incorrect_answers,
+            questions[0].correct_answer,
+          ].sort(() => Math.random() - 0.5)
+        )
+        //console.log("Questions:", questions)
+        console.log("Answers:", answers)
+    } else {
+        setGuess("")
+        await fetchNextQuestion(category, difficulty, type)
+            .then((data) => {setQuestions(data.results)
+                console.log("Questions:", questions)
+                setAnswers(
+                    [
+                        ...data.results[0].incorrect_answers,
+                        data.results[0].correct_answer,
+                    ].sort(() => Math.random() - 0.5)
+                )
+                console.log("Answers:", answers)
+            }
+        )
+    }
+
+  }
+
   useEffect(() => {
     setGuessed(false);
-  }, [questions]);
+  }, [questions, setGuessed]);
 
   function NextButton() {
     return <>
-        <button className="body next-button">Next</button>
+        <button className="body next-button" onClick={handleNextQuestion}>Next</button>
     </>
   }
 

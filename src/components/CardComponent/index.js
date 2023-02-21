@@ -6,14 +6,17 @@ import AnswerButton from "../AnswerButton";
 import { decodeHTML } from "../../Utils";
 
 function CardComponent(props) {
-  const { questions, answers } = useContext(DataContext);
-  const [guessed, setGuessed] = useState(false);
+  const { questions, answers, guessed, setGuessed } = useContext(DataContext);
   const [guess, setGuess] = useState("");
 
   const handleGuess = (answer) => {
     setGuessed(true);
     setGuess(answer);
   };
+
+  useEffect(() => {
+    setGuessed(false);
+  }, [questions]);
 
   return (
     <>

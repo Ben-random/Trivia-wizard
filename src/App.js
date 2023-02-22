@@ -5,16 +5,19 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home } from "./Home";
 import Favourites from "./Favourites";
 import Navigation from "./components/Navigation";
+import { DataProvider } from "./context/DataContext";
 
 function App() {
   return (
     <div data-testid="app">
-      <Navigation />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/favourites" element={<Favourites />} />
-        </Routes>
+        <DataProvider>
+          <Navigation />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/favourites" element={<Favourites />} />
+          </Routes>
+        </DataProvider>
       </BrowserRouter>
     </div>
   );

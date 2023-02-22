@@ -6,6 +6,7 @@ import AnswerButton from "../AnswerButton";
 import { decodeHTML } from "../../Utils";
 import { fetchNextQuestion } from "../Options";
 import Button from "react-bootstrap/Button";
+import { Heart, HeartFill } from "react-bootstrap-icons";
 
 function CardComponent(props) {
   const {
@@ -18,12 +19,26 @@ function CardComponent(props) {
     category,
     difficulty,
     type,
+    favouritesDeck,
+    setFavouritesDeck,
   } = useContext(DataContext);
   const [guess, setGuess] = useState("");
+  const [favourite, setFavourite] = useState(false);
 
   const handleGuess = (answer) => {
     setGuessed(true);
     setGuess(answer);
+  };
+
+  const addToFavourites = () => {
+    setFavourite(true);
+    setFavouritesDeck([...favouritesDeck, questions[0]]);
+  };
+
+  const removeFromFavourites = () => {
+    setFavourite(false);
+    favouritesDeck.pop();
+    setFavouritesDeck(favouritesDeck);
   };
 
   const handleNextQuestion = async () => {
@@ -58,6 +73,10 @@ function CardComponent(props) {
     setGuessed(false);
   }, [answers, questions, setGuessed]);
 
+  useEffect(() => {
+    setFavourite(favouritesDeck.includes(questions[0]));
+  }, [questions[0]]);
+
   function NextButton() {
     return (
       <>
@@ -79,7 +98,14 @@ function CardComponent(props) {
         {questions.length > 0 ? (
           <Card>
             <Card.Body>
-              <Card.Title>Question:</Card.Title>
+              <Card.Title>
+                {favourite ? (
+                  <HeartFill className="heart" onClick={removeFromFavourites} />
+                ) : (
+                  <Heart onClick={addToFavourites} />
+                )}{" "}
+                Question:
+              </Card.Title>
               <Card.Text>{decodeHTML(questions[0].question)}</Card.Text>
               <div>
                 <section className="buttons">
@@ -92,10 +118,11 @@ function CardComponent(props) {
                       />
                     ))}
                   </section>
-                  <section className="next-button">
+                  <section>
                     <NextButton />
                   </section>
                 </section>
+
                 {guessed &&
                   (guess === questions[0].correct_answer ? (
                     <h1 className="text-success">Correct!</h1>

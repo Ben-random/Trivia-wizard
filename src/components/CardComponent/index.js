@@ -5,6 +5,7 @@ import "./style.css";
 import AnswerButton from "../AnswerButton";
 import { decodeHTML } from "../../Utils";
 import { fetchNextQuestion } from "../Options";
+import Button from "react-bootstrap/Button";
 
 function CardComponent(props) {
   const {
@@ -60,9 +61,14 @@ function CardComponent(props) {
   function NextButton() {
     return (
       <>
-        <button className="body next-button" onClick={handleNextQuestion}>
+        <Button
+          className="next-button"
+          variant="outline-primary"
+          style={{ margin: "10px" }}
+          onClick={handleNextQuestion}
+        >
           Next
-        </button>
+        </Button>
       </>
     );
   }
@@ -76,14 +82,20 @@ function CardComponent(props) {
               <Card.Title>Question:</Card.Title>
               <Card.Text>{decodeHTML(questions[0].question)}</Card.Text>
               <div>
-                {answers.map((answer, index) => (
-                  <AnswerButton
-                    key={index}
-                    answer={answer}
-                    handleGuess={() => handleGuess(answer)}
-                  />
-                ))}
-                <NextButton />
+                <section className="buttons">
+                  <section className="answer-buttons">
+                    {answers.map((answer, index) => (
+                      <AnswerButton
+                        key={index}
+                        answer={answer}
+                        handleGuess={() => handleGuess(answer)}
+                      />
+                    ))}
+                  </section>
+                  <section className="next-button">
+                    <NextButton />
+                  </section>
+                </section>
                 {guessed &&
                   (guess === questions[0].correct_answer ? (
                     <h1 className="text-success">Correct!</h1>

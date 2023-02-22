@@ -1,16 +1,17 @@
-body {
+/* body {
   display: flex;
   border-color: cadetblue;
   border-style: solid;
   align-content: center;
   justify-content: center;
-}
+} */
 
 /* button-style{
     display: flex;
     padding-left: 14pt;
 } */
 
-next-button {
-  padding-left: 20pt;
+.buttons {
+  display: flex;
+  justify-content: space-between;
 }

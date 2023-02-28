@@ -18,12 +18,19 @@ function CardComponent(props) {
     category,
     difficulty,
     type,
+    score,
+    setScore,
+    lives,
+    setLives
   } = useContext(DataContext);
   const [guess, setGuess] = useState("");
+  const [disableNextButton, setDisabeNextButton] = useState("false")
 
   const handleGuess = (answer) => {
     setGuessed(true);
     setGuess(answer);
+
+    handleLives()
   };
 
   const handleNextQuestion = async () => {
@@ -52,6 +59,17 @@ function CardComponent(props) {
         console.log("Answers:", answers);
       });
     }
+    if (lives >= 0 && guessed) {
+      setScore(score + 1)
+      console.log("Score:", score)
+      console.log("Lives:", lives)
+    } else if (lives < 0) {
+      console.log("Game over")
+      setScore(1)
+      setLives(3)
+      console.log("Score:", score)
+      console.log("Lives:", lives)
+    }
   };
 
   useEffect(() => {
@@ -65,6 +83,7 @@ function CardComponent(props) {
           className="next-button"
           variant="outline-primary"
           style={{ margin: "10px" }}
+          disable={disableNextButton}
           onClick={handleNextQuestion}
         >
           Next
@@ -73,6 +92,12 @@ function CardComponent(props) {
     );
   }
 
+  const handleLives = () => {
+    if ((guess !== questions[0].correct_answer && guess !== "")) {
+      setLives(lives - 1)
+      console.log("Lives:", lives)
+    }
+ }
   return (
     <>
       <div className="card-body card p-2 mb-4">
@@ -101,7 +126,7 @@ function CardComponent(props) {
                     <h1 className="text-success">Correct!</h1>
                   ) : (
                     <h1 className="text-danger">
-                      Incorrect! the answer is{" "}
+                      Incorrect! The answer is{" "}
                       {decodeHTML(questions[0].correct_answer)}
                     </h1>
                   ))}

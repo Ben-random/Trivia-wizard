@@ -34,6 +34,16 @@ function CardComponent(props) {
     setQuestions(props.questions);
   }, [props.questions]);
 
+  useEffect(() => {
+    if (questions[0]) {
+      setAnswers(
+        [...questions[0].incorrect_answers, questions[0].correct_answer].sort(
+          () => Math.random() - 0.5
+        )
+      );
+    }
+  }, [questions]);
+
   const handleGuess = (answer) => {
     setGuessed(true);
     setGuess(answer);
@@ -68,7 +78,6 @@ function CardComponent(props) {
         console.log(questions);
         questions.shift();
         console.log("new question", questions);
-        // setQuestions(questions);
         setAnswers(
           [...questions[0].incorrect_answers, questions[0].correct_answer].sort(
             () => Math.random() - 0.5

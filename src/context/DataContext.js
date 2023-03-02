@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const DataContext = createContext();
 
@@ -9,6 +10,9 @@ export const DataProvider = (props) => {
   const [category, setCategory] = useState("");
   const [difficulty, setDifficulty] = useState("easy");
   const [type, setType] = useState("boolean");
+  const [favouritesDeck, setFavouritesDeck] = useState([]);
+  const [cacheDeck, setCacheDeck] = useState([]);
+  const navigate = useNavigate();
   const [score, setScore] = useState(1);
   const [lives, setLives] = useState(3);
 
@@ -30,7 +34,12 @@ export const DataProvider = (props) => {
         score,
         setScore,
         lives,
-        setLives
+        setLives,
+        favouritesDeck,
+        setFavouritesDeck,
+        navigate,
+        cacheDeck,
+        setCacheDeck,
       }}
     >
       {props.children}

@@ -4,14 +4,12 @@ import { Options } from "./components/Options";
 import { DataContext } from "./context/DataContext";
 
 function Home() {
-  const { cacheDeck, setQuestions } = useContext(DataContext);
-  if (cacheDeck.length > 0) {
-    setQuestions(...[cacheDeck]);
-  }
+  const { questions } = useContext(DataContext);
+
   return (
     <div className="container l:w-50 p-5">
       <Options />
-      <CardComponent />
+      <CardComponent questions={questions} />
     </div>
   );
 }

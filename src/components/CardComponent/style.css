@@ -19,3 +19,8 @@
 .heart {
   color: red;
 }
+
+.questions-row {
+  display: flex;
+  justify-content: space-between;
+}

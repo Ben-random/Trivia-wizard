@@ -7,6 +7,7 @@ import { decodeHTML } from "../../Utils";
 import { fetchNextQuestion } from "../Options";
 import Button from "react-bootstrap/Button";
 import { Heart, HeartFill } from "react-bootstrap-icons";
+import { useLocation } from "react-router-dom";
 
 function CardComponent(props) {
   const {
@@ -54,14 +55,12 @@ function CardComponent(props) {
   const addToFavourites = () => {
     setFavourite(true);
     setFavouritesDeck([...favouritesDeck, questions[0]]);
-    setCacheDeck([...favouritesDeck]);
   };
 
   const removeFromFavourites = () => {
     setFavourite(false);
     favouritesDeck.pop();
     setFavouritesDeck(favouritesDeck);
-    setCacheDeck([...favouritesDeck]);
   };
 
   const restartFavouriteDeck = () => {
@@ -135,6 +134,10 @@ function CardComponent(props) {
       setFavourite(favouritesDeck.includes(questions[0]));
     }
   }, [questions[0]]);
+
+  useEffect(() => {
+    setCacheDeck([...favouritesDeck]);
+  }, [favouritesDeck]);
 
   function NextButton() {
     return (
@@ -229,7 +232,7 @@ function CardComponent(props) {
             </Card.Body>
           </Card>
         ) : (
-          <></>
+          <>Ready to be tested?</>
         )}
       </div>
     </>

@@ -20,8 +20,8 @@ function CardComponent(props) {
     type,
     score,
     setScore,
-    lives,
-    setLives,
+    alive,
+    setAlive,
     favouritesDeck,
     setFavouritesDeck,
     cacheDeck,
@@ -31,6 +31,8 @@ function CardComponent(props) {
   const [disableNextButton, setDisabeNextButton] = useState("false");
   const [favourite, setFavourite] = useState(false);
   const [questions, setQuestions] = useState([]);
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [disableAnswerButtons, setDisableAnswerButtons] = useState(false);
   useEffect(() => {
     setQuestions(props.questions);
   }, [props.questions]);
@@ -45,11 +47,38 @@ function CardComponent(props) {
     }
   }, [questions]);
 
+  useEffect(() => {
+    if (questions[0]) {
+      handleLives();
+    }
+  }, [guess]);
+
+  useEffect(() => {
+    console.log("guessed:", guessed);
+    if (guessed === true) {
+      setDisableAnswerButtons(true);
+      console.log("disabling answer buttons");
+    } else {
+      setDisableAnswerButtons(false);
+      console.log("enabling answer buttons");
+    }
+  }, [guessed]);
+
+  useEffect(() => {
+    if (alive === false) {
+      console.log("Game over. Your streak was: ", score);
+    }
+  });
+
   const handleGuess = (answer) => {
     setGuessed(true);
     setGuess(answer);
+    setIsCorrect(guess === questions[0].correct_answer);
+    if (isCorrect) {
+      setScore(score + 1);
+    }
 
-    handleLives();
+    // handleLives();
   };
 
   const addToFavourites = () => {
@@ -111,18 +140,6 @@ function CardComponent(props) {
         });
       }
     }
-
-    if (lives >= 0 && guessed) {
-      setScore(score + 1);
-      console.log("Score:", score);
-      console.log("Lives:", lives);
-    } else if (lives < 0) {
-      console.log("Game over");
-      setScore(1);
-      setLives(3);
-      console.log("Score:", score);
-      console.log("Lives:", lives);
-    }
   };
 
   useEffect(() => {
@@ -172,8 +189,7 @@ function CardComponent(props) {
 
   const handleLives = () => {
     if (guess !== questions[0].correct_answer && guess !== "") {
-      setLives(lives - 1);
-      console.log("Lives:", lives);
+      setAlive(false);
     }
   };
   return (
@@ -208,6 +224,7 @@ function CardComponent(props) {
                   <section className="answer-buttons">
                     {answers.map((answer, index) => (
                       <AnswerButton
+                        disabled={disableAnswerButtons}
                         key={index}
                         answer={answer}
                         handleGuess={() => handleGuess(answer)}
@@ -220,7 +237,7 @@ function CardComponent(props) {
                 </section>
 
                 {guessed &&
-                  (guess === questions[0].correct_answer ? (
+                  (isCorrect ? (
                     <h1 className="text-success">Correct!</h1>
                   ) : (
                     <h1 className="text-danger">

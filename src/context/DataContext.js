@@ -13,8 +13,8 @@ export const DataProvider = (props) => {
   const [favouritesDeck, setFavouritesDeck] = useState([]);
   const [cacheDeck, setCacheDeck] = useState([]);
   const navigate = useNavigate();
-  const [score, setScore] = useState(1);
-  const [lives, setLives] = useState(3);
+  const [score, setScore] = useState(0);
+  const [alive, setAlive] = useState(true);
 
   return (
     <DataContext.Provider
@@ -33,8 +33,8 @@ export const DataProvider = (props) => {
         setType,
         score,
         setScore,
-        lives,
-        setLives,
+        alive,
+        setAlive,
         favouritesDeck,
         setFavouritesDeck,
         navigate,

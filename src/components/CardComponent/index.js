@@ -69,6 +69,11 @@ function CardComponent(props) {
     if (answer === questions[0].correct_answer) {
       setScore(score + 1);
       console.log("Score:", score);
+      if (score >= highscore) {
+        setHighscore(score)
+        console.log("Highscore:", highscore);
+      }
+      console.log("Highscore:", highscore);
     }
     setDisableAnswerButtons(true);
   };

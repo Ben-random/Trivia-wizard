@@ -62,11 +62,10 @@ function CardComponent(props) {
   const handleGuess = (answer) => {
     setGuessed(true);
     setGuess(answer);
-    if (guess === questions[0].correct_answer) {
+    if (answer === questions[0].correct_answer) {
       setScore(score + 1);
     }
-
-    // handleLives();
+    setDisableAnswerButtons(true);
   };
 
   const addToFavourites = () => {
@@ -132,6 +131,7 @@ function CardComponent(props) {
 
   useEffect(() => {
     setGuessed(false);
+    setDisableAnswerButtons(false);
   }, [answers, questions, setGuessed]);
 
   useEffect(() => {
@@ -189,15 +189,18 @@ function CardComponent(props) {
               <Card.Title>
                 <section className="questions-row">
                   <section className="question">
-                    {favourite ? (
-                      <HeartFill
-                        className="heart"
-                        onClick={removeFromFavourites}
-                      />
-                    ) : (
-                      <Heart onClick={addToFavourites} />
-                    )}{" "}
-                    Question:
+                    <div>
+                      {favourite ? (
+                        <HeartFill
+                          className="heart"
+                          onClick={removeFromFavourites}
+                        />
+                      ) : (
+                        <Heart onClick={addToFavourites} />
+                      )}{" "}
+                      Question:
+                    </div>
+                    <div>Score: {score}</div>
                   </section>
                   <section className="restart-favdeck-button">
                     {window.location.pathname !== "/" && (
@@ -212,7 +215,7 @@ function CardComponent(props) {
                   <section className="answer-buttons">
                     {answers.map((answer, index) => (
                       <AnswerButton
-                        disable={disableAnswerButtons}
+                        disabled={disableAnswerButtons}
                         key={index}
                         answer={answer}
                         handleGuess={() => handleGuess(answer)}

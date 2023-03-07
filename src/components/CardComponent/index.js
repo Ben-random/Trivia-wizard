@@ -54,17 +54,6 @@ function CardComponent(props) {
   }, [guess]);
 
   useEffect(() => {
-    console.log("guessed:", guessed);
-    if (guessed === true) {
-      setDisableAnswerButtons(true);
-      console.log("disabling answer buttons");
-    } else {
-      setDisableAnswerButtons(false);
-      console.log("enabling answer buttons");
-    }
-  }, [guessed]);
-
-  useEffect(() => {
     if (alive === false) {
       console.log("Game over. Your streak was: ", score);
     }
@@ -73,8 +62,7 @@ function CardComponent(props) {
   const handleGuess = (answer) => {
     setGuessed(true);
     setGuess(answer);
-    setIsCorrect(guess === questions[0].correct_answer);
-    if (isCorrect) {
+    if (guess === questions[0].correct_answer) {
       setScore(score + 1);
     }
 
@@ -224,7 +212,7 @@ function CardComponent(props) {
                   <section className="answer-buttons">
                     {answers.map((answer, index) => (
                       <AnswerButton
-                        disabled={disableAnswerButtons}
+                        disable={disableAnswerButtons}
                         key={index}
                         answer={answer}
                         handleGuess={() => handleGuess(answer)}
@@ -237,7 +225,7 @@ function CardComponent(props) {
                 </section>
 
                 {guessed &&
-                  (isCorrect ? (
+                  (guess === questions[0].correct_answer ? (
                     <h1 className="text-success">Correct!</h1>
                   ) : (
                     <h1 className="text-danger">

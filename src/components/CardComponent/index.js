@@ -22,6 +22,8 @@ function CardComponent(props) {
     setScore,
     alive,
     setAlive,
+    highscore,
+    setHighscore,
     favouritesDeck,
     setFavouritesDeck,
     cacheDeck,
@@ -55,6 +57,8 @@ function CardComponent(props) {
 
   useEffect(() => {
     if (alive === false) {
+      setScore(0);
+      setAlive(true);
       console.log("Game over. Your streak was: ", score);
     }
   });
@@ -64,6 +68,7 @@ function CardComponent(props) {
     setGuess(answer);
     if (answer === questions[0].correct_answer) {
       setScore(score + 1);
+      console.log("Score:", score);
     }
     setDisableAnswerButtons(true);
   };

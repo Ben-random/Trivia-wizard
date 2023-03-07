@@ -15,6 +15,7 @@ export const DataProvider = (props) => {
   const navigate = useNavigate();
   const [score, setScore] = useState(0);
   const [alive, setAlive] = useState(true);
+  const [highscore, setHighscore] = useState(0);
 
   return (
     <DataContext.Provider
@@ -33,6 +34,8 @@ export const DataProvider = (props) => {
         setType,
         score,
         setScore,
+        highscore,
+        setHighscore,
         alive,
         setAlive,
         favouritesDeck,

@@ -33,6 +33,7 @@ function CardComponent(props) {
   const [questions, setQuestions] = useState([]);
   const [isCorrect, setIsCorrect] = useState(false);
   const [disableAnswerButtons, setDisableAnswerButtons] = useState(false);
+  const [highscore, setHighscore] = useState(0);
   useEffect(() => {
     setQuestions(props.questions);
   }, [props.questions]);
@@ -53,17 +54,16 @@ function CardComponent(props) {
     }
   }, [guess]);
 
-  useEffect(() => {
-    if (alive === false) {
-      console.log("Game over. Your streak was: ", score);
-    }
-  });
-
   const handleGuess = (answer) => {
     setGuessed(true);
     setGuess(answer);
     if (answer === questions[0].correct_answer) {
       setScore(score + 1);
+    } else {
+      if (score > highscore) {
+        setHighscore(score);
+      }
+      setScore(0);
     }
     setDisableAnswerButtons(true);
   };
@@ -189,19 +189,18 @@ function CardComponent(props) {
               <Card.Title>
                 <section className="questions-row">
                   <section className="question">
-                    <div>
-                      {favourite ? (
-                        <HeartFill
-                          className="heart"
-                          onClick={removeFromFavourites}
-                        />
-                      ) : (
-                        <Heart onClick={addToFavourites} />
-                      )}{" "}
-                      Question:
-                    </div>
-                    <div>Score: {score}</div>
+                    {favourite ? (
+                      <HeartFill
+                        className="heart"
+                        onClick={removeFromFavourites}
+                      />
+                    ) : (
+                      <Heart onClick={addToFavourites} />
+                    )}{" "}
+                    Question:
                   </section>
+                  <div>Streak: {score}</div>
+                  <div>Previous highscore: {highscore}</div>
                   <section className="restart-favdeck-button">
                     {window.location.pathname !== "/" && (
                       <RestartFavDeckButton />

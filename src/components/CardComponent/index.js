@@ -59,6 +59,14 @@ function CardComponent(props) {
     setGuess(answer);
     if (answer === questions[0].correct_answer) {
       setScore(score + 1);
+      if (window.location.pathname !== "/") {
+        if (
+          score === favouritesDeck.length ||
+          score + 1 === favouritesDeck.length
+        ) {
+          setHighscore(favouritesDeck.length);
+        }
+      }
     } else {
       if (score > highscore) {
         setHighscore(score);
@@ -77,6 +85,10 @@ function CardComponent(props) {
     setFavourite(false);
     favouritesDeck.pop();
     setFavouritesDeck(favouritesDeck);
+    if (window.location.pathname !== "/") {
+      setHighscore(0);
+      setScore(0);
+    }
   };
 
   const restartFavouriteDeck = () => {
@@ -129,6 +141,23 @@ function CardComponent(props) {
       }
     }
   };
+
+  useEffect(() => {
+    if (window.location.pathname !== "/") {
+      setScore(0);
+      setHighscore(0);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (window.location.pathname !== "/") {
+      if (cacheDeck.length === 0 && favouritesDeck.length > 0) {
+        if (score === favouritesDeck.length) {
+          setHighscore(favouritesDeck.length);
+        }
+      }
+    }
+  }, [cacheDeck]);
 
   useEffect(() => {
     setGuessed(false);

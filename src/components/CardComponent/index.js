@@ -20,8 +20,8 @@ function CardComponent(props) {
     type,
     score,
     setScore,
-    lives,
-    setLives,
+    alive,
+    setAlive,
     favouritesDeck,
     setFavouritesDeck,
     cacheDeck,
@@ -31,6 +31,9 @@ function CardComponent(props) {
   const [disableNextButton, setDisabeNextButton] = useState("false");
   const [favourite, setFavourite] = useState(false);
   const [questions, setQuestions] = useState([]);
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [disableAnswerButtons, setDisableAnswerButtons] = useState(false);
+  const [highscore, setHighscore] = useState(0);
   useEffect(() => {
     setQuestions(props.questions);
   }, [props.questions]);
@@ -45,11 +48,24 @@ function CardComponent(props) {
     }
   }, [questions]);
 
+  useEffect(() => {
+    if (questions[0]) {
+      handleLives();
+    }
+  }, [guess]);
+
   const handleGuess = (answer) => {
     setGuessed(true);
     setGuess(answer);
-
-    handleLives();
+    if (answer === questions[0].correct_answer) {
+      setScore(score + 1);
+    } else {
+      if (score > highscore) {
+        setHighscore(score);
+      }
+      setScore(0);
+    }
+    setDisableAnswerButtons(true);
   };
 
   const addToFavourites = () => {
@@ -111,22 +127,11 @@ function CardComponent(props) {
         });
       }
     }
-
-    if (lives >= 0 && guessed) {
-      setScore(score + 1);
-      console.log("Score:", score);
-      console.log("Lives:", lives);
-    } else if (lives < 0) {
-      console.log("Game over");
-      setScore(1);
-      setLives(3);
-      console.log("Score:", score);
-      console.log("Lives:", lives);
-    }
   };
 
   useEffect(() => {
     setGuessed(false);
+    setDisableAnswerButtons(false);
   }, [answers, questions, setGuessed]);
 
   useEffect(() => {
@@ -172,8 +177,7 @@ function CardComponent(props) {
 
   const handleLives = () => {
     if (guess !== questions[0].correct_answer && guess !== "") {
-      setLives(lives - 1);
-      console.log("Lives:", lives);
+      setAlive(false);
     }
   };
   return (
@@ -195,6 +199,8 @@ function CardComponent(props) {
                     )}{" "}
                     Question:
                   </section>
+                  <div>Streak: {score}</div>
+                  <div>Previous highscore: {highscore}</div>
                   <section className="restart-favdeck-button">
                     {window.location.pathname !== "/" && (
                       <RestartFavDeckButton />
@@ -208,6 +214,7 @@ function CardComponent(props) {
                   <section className="answer-buttons">
                     {answers.map((answer, index) => (
                       <AnswerButton
+                        disabled={disableAnswerButtons}
                         key={index}
                         answer={answer}
                         handleGuess={() => handleGuess(answer)}

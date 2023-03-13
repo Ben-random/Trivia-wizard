@@ -81,6 +81,7 @@ function CardComponent(props) {
 
   const restartFavouriteDeck = () => {
     setCacheDeck([...favouritesDeck]);
+    setScore(0);
   };
 
   const handleNextQuestion = async () => {
@@ -199,7 +200,14 @@ function CardComponent(props) {
                     )}{" "}
                     Question:
                   </section>
-                  <div>Streak: {score}</div>
+                  {window.location.pathname !== "/" ? (
+                    <div>
+                      Streak: {score}/ {favouritesDeck.length}{" "}
+                    </div>
+                  ) : (
+                    <div>Streak: {score}</div>
+                  )}
+
                   <div>Previous highscore: {highscore}</div>
                   <section className="restart-favdeck-button">
                     {window.location.pathname !== "/" && (
